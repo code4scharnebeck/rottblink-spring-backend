@@ -1,0 +1,69 @@
+buildscript {
+	ext {
+		springBootVersion = '1.4.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") 
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot' 
+
+jar {
+	baseName = 'demo'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	//compile('org.springframework.boot:spring-boot-starter-actuator')
+	//compile('org.springframework.boot:spring-boot-actuator-docs')
+    compile 'io.springfox:springfox-swagger2:2.4.0'
+    compile 'io.springfox:springfox-swagger-ui:2.4.0'
+	compile 'javax.servlet:javax.servlet-api:4.0.0-b01'
+    compile 'io.swagger:swagger-jaxrs:1.5.8'
+    compile 'net.sf.dozer:dozer:5.4.0'
+    //compile('org.springframework.boot:spring-boot-starter-web') {
+	    //exclude module: "spring-boot-starter-logging"
+	    //exclude module: "slf4j-log4j12"
+	//}
+	compile('org.springframework.boot:spring-boot-starter-data-rest')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	//compile('org.projectlombok:lombok:1.16.6')
+	//compile('org.springframework.boot:spring-boot-starter-mail')
+	//compile('org.springframework.boot:spring-boot-starter-security')
+	runtime('org.postgresql:postgresql')
+	//runtime('org.postgresql:postgresql:9.4-1206-jdbc42')
+	//runtime('org.hsqldb:hsqldb')
+	testCompile('org.springframework.boot:spring-boot-starter-test') 
+	testCompile('org.springframework.restdocs:spring-restdocs-mockmvc')
+	
+}
+
+configurations.all { 
+	exclude group: 'org.slf4j', module: 'log4j-over-slf4j'
+	exclude group: 'org.slf4j', module: 'slf4j-log4j12' 
+}
+
+
+eclipse {
+	classpath {
+		 containers.remove('org.eclipse.jdt.launching.JRE_CONTAINER')
+		 containers 'org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8'
+	}
+}
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '3.2.1'
+}
